@@ -1,0 +1,29 @@
+{
+  "name": "@repo/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "bun": ">=1.2.13",
+    "node": ">=20.0.0"
+  },
+  "exports": {
+    "./container": "./di/container.ts",
+    "./shared/*": "./src/shared/*.ts",
+    "./utils": "./src/utils.ts"
+  },
+  "scripts": {
+    "integration": "RUN_INTEGRATION_TESTS=1 bun test",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@repo/db": "workspace:*",
+    "diod": "3.0.0",
+    "reflect-metadata": "0.2.2",
+    "uuid": "^13.0.0"
+  }
+}

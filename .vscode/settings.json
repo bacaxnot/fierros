@@ -1,0 +1,34 @@
+{
+  // The path ("/path/to/bun") to the `bun` executable.
+  "bun.runtime": "bun",
+  // If support for Bun should be added to the default "JavaScript Debug Terminal".
+  "bun.debugTerminal.enabled": true,
+  // If the debugger should stop on the first line of the program.
+  "bun.debugTerminal.stopOnEntry": false,
+  // Glob pattern to find test files. Defaults to the value shown below.
+  "bun.test.filePattern": "**/*{.test.,.spec.,_test_,_spec_}{js,ts,tsx,jsx,mts,cts,cjs,mjs}",
+  // The custom script to call for testing instead of `bun test`
+  "bun.test.customScript": "bun test",
+
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "explicit",
+    "source.fixAll.biome": "explicit"
+  },
+  // File nesting (looks like a tree in the explorer)
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false
+}
