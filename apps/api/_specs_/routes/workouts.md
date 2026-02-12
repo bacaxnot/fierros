@@ -3,8 +3,9 @@
 GET /workouts
 
 ListWorkoutsController:
-  query: none
-  orchestrates: SearchWorkoutsByUser
+  query: criteria (filters, orderBy, orderType, pageSize, pageNumber)
+  orchestrates: SearchWorkoutsByCriteria
+  injects: userId filter from auth context
   responses:
     - 200: WorkoutPrimitives[]
 

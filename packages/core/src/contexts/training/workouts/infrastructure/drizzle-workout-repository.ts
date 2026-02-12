@@ -6,7 +6,6 @@ import {
   type FieldMapping,
 } from "../../../../shared/infrastructure/criteria/criteria-to-drizzle-converter";
 import { DrizzlePostgresRepository } from "../../../../shared/infrastructure/drizzle-postgres-repository";
-import type { UserId } from "../../users/domain/user-id";
 import { Workout, type WorkoutPrimitives } from "../domain/workout";
 import type { WorkoutBlockPrimitives } from "../domain/workout-block";
 import type { WorkoutId } from "../domain/workout-id";
@@ -54,15 +53,6 @@ export class DrizzleWorkoutRepository extends DrizzlePostgresRepository<Workout>
       .where(eq(workouts.id, id.value));
 
     return rows[0] ? this.toAggregate(rows[0]) : null;
-  }
-
-  async searchByUserId(userId: UserId): Promise<Workout[]> {
-    const rows = await this.db
-      .select()
-      .from(workouts)
-      .where(eq(workouts.userId, userId.value));
-
-    return rows.map((row) => this.toAggregate(row));
   }
 
   async searchByCriteria(criteria: Criteria): Promise<Workout[]> {

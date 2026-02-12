@@ -6,7 +6,6 @@ import {
   type FieldMapping,
 } from "../../../../shared/infrastructure/criteria/criteria-to-drizzle-converter";
 import { DrizzlePostgresRepository } from "../../../../shared/infrastructure/drizzle-postgres-repository";
-import type { UserId } from "../../users/domain/user-id";
 import { Routine, type RoutinePrimitives } from "../domain/routine";
 import type { RoutineBlockPrimitives } from "../domain/routine-block";
 import type { RoutineId } from "../domain/routine-id";
@@ -50,15 +49,6 @@ export class DrizzleRoutineRepository extends DrizzlePostgresRepository<Routine>
       .where(eq(routines.id, id.value));
 
     return rows[0] ? this.toAggregate(rows[0]) : null;
-  }
-
-  async searchByUserId(userId: UserId): Promise<Routine[]> {
-    const rows = await this.db
-      .select()
-      .from(routines)
-      .where(eq(routines.userId, userId.value));
-
-    return rows.map((row) => this.toAggregate(row));
   }
 
   async searchByCriteria(criteria: Criteria): Promise<Routine[]> {

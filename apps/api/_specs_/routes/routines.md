@@ -21,8 +21,9 @@ RoutineSetMetric dto
 GET /routines
 
 ListRoutinesController:
-  query: none
-  orchestrates: SearchRoutinesByUser
+  query: criteria (filters, orderBy, orderType, pageSize, pageNumber)
+  orchestrates: SearchRoutinesByCriteria
+  injects: userId filter from auth context
   responses:
     - 200: RoutinePrimitives[]
 

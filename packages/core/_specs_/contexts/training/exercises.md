@@ -41,27 +41,28 @@ Exercise ag
 ExerciseRepository repository
   - save(exercise: Exercise) -> void
   - search(id: ExerciseId) -> Exercise | null
-  - searchByUserId(userId: UserId) -> Exercise[]
+  - searchByCriteria(criteria: Criteria) -> Exercise[]
+  - countByCriteria(criteria: Criteria) -> number
   - delete(id: ExerciseId) -> void
 
 ---
 
 ## Use Cases
 
-SearchExercisesByUser ({ userId: string }) -> ExercisePrimitives[]
+SearchExercisesByCriteria ({ criteria: CriteriaPrimitives }) -> ExercisePrimitives[]
   [ExerciseRepository]
 
   happy:
-    base: returns user exercises and system exercises as primitives
+    base: returns exercises matching criteria as primitives
     scenarios:
-      - with user-created exercises
-      - with only system exercises (no user exercises)
+      - with exercises matching filters
+      - with no exercises matching (empty list)
 
 ---
 
 ## Design Decisions
 
 1. **Nullable userId**: `null` means system-defined exercise (available to all users). Non-null means user-created.
-2. **searchByUserId returns both**: Repository returns system exercises (userId = null) AND user-specific exercises.
+2. **Criteria-based search**: All listing queries use `searchByCriteria` with the shared Criteria pattern (filters, ordering, pagination).
 3. **defaultMetrics is a UI hint**: Suggests which metrics to track, but RoutineSet can use any metrics.
 4. **targetMuscles is embedded**: No separate aggregate — muscles are part of the exercise definition.

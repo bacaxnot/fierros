@@ -53,7 +53,8 @@ Routine ag
 RoutineRepository repository
   - save(routine: Routine) -> void
   - search(id: RoutineId) -> Routine | null
-  - searchByUserId(userId: UserId) -> Routine[]
+  - searchByCriteria(criteria: Criteria) -> Routine[]
+  - countByCriteria(criteria: Criteria) -> number
   - delete(id: RoutineId) -> void
 
 ---
@@ -78,14 +79,14 @@ FindRoutine ({ id: string }) -> Routine
   guards:
     - rejects if routine does not exist -> RoutineDoesNotExistError
 
-SearchRoutinesByUser ({ userId: string }) -> RoutinePrimitives[]
+SearchRoutinesByCriteria ({ criteria: CriteriaPrimitives }) -> RoutinePrimitives[]
   [RoutineRepository]
 
   happy:
-    base: returns all routines for the user as primitives
+    base: returns routines matching criteria as primitives
     scenarios:
-      - with multiple routines
-      - with no routines (empty list)
+      - with routines matching filters
+      - with no routines matching (empty list)
 
 CreateRoutine ({
   id: string,

@@ -54,7 +54,8 @@ Workout ag
 WorkoutRepository repository
   - save(workout: Workout) -> void
   - search(id: WorkoutId) -> Workout | null
-  - searchByUserId(userId: UserId) -> Workout[]
+  - searchByCriteria(criteria: Criteria) -> Workout[]
+  - countByCriteria(criteria: Criteria) -> number
   - delete(id: WorkoutId) -> void
 
 ---
@@ -82,14 +83,14 @@ FindWorkout ({ id: string }) -> Workout
   guards:
     - rejects if workout does not exist -> WorkoutDoesNotExistError
 
-SearchWorkoutsByUser ({ userId: string }) -> WorkoutPrimitives[]
+SearchWorkoutsByCriteria ({ criteria: CriteriaPrimitives }) -> WorkoutPrimitives[]
   [WorkoutRepository]
 
   happy:
-    base: returns all workouts for the user as primitives
+    base: returns workouts matching criteria as primitives
     scenarios:
-      - with multiple workouts
-      - with no workouts (empty list)
+      - with workouts matching filters
+      - with no workouts matching (empty list)
 
 StartWorkoutFromRoutine ({
   workoutId: string,

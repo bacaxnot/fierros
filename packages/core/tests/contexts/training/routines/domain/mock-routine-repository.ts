@@ -5,7 +5,6 @@ import { RoutineRepository } from "../../../../../src/contexts/training/routines
 export class MockRoutineRepository extends RoutineRepository {
   readonly save = mock((_routine: Routine): Promise<void> => Promise.resolve());
   readonly search = mock((): Promise<Routine | null> => Promise.resolve(null));
-  readonly searchByUserId = mock((): Promise<Routine[]> => Promise.resolve([]));
   readonly searchByCriteria = mock((): Promise<Routine[]> => Promise.resolve([]));
   readonly countByCriteria = mock((): Promise<number> => Promise.resolve(0));
   readonly delete = mock((): Promise<void> => Promise.resolve());
@@ -14,7 +13,7 @@ export class MockRoutineRepository extends RoutineRepository {
     this.search.mockResolvedValue(routine);
   }
 
-  returnOnSearchByUserId(routines: Routine[]): void {
-    this.searchByUserId.mockResolvedValue(routines);
+  returnOnSearchByCriteria(routines: Routine[]): void {
+    this.searchByCriteria.mockResolvedValue(routines);
   }
 }

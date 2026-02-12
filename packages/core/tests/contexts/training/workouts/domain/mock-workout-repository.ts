@@ -5,7 +5,6 @@ import { WorkoutRepository } from "../../../../../src/contexts/training/workouts
 export class MockWorkoutRepository extends WorkoutRepository {
   readonly save = mock((_workout: Workout): Promise<void> => Promise.resolve());
   readonly search = mock((): Promise<Workout | null> => Promise.resolve(null));
-  readonly searchByUserId = mock((): Promise<Workout[]> => Promise.resolve([]));
   readonly searchByCriteria = mock((): Promise<Workout[]> => Promise.resolve([]));
   readonly countByCriteria = mock((): Promise<number> => Promise.resolve(0));
   readonly delete = mock((): Promise<void> => Promise.resolve());
@@ -14,7 +13,7 @@ export class MockWorkoutRepository extends WorkoutRepository {
     this.search.mockResolvedValue(workout);
   }
 
-  returnOnSearchByUserId(workouts: Workout[]): void {
-    this.searchByUserId.mockResolvedValue(workouts);
+  returnOnSearchByCriteria(workouts: Workout[]): void {
+    this.searchByCriteria.mockResolvedValue(workouts);
   }
 }
