@@ -65,3 +65,9 @@ Desktop.ini
 tmp/
 temp/
 *.tmp
+
+# AI assistant generated files
+CLAUDE.md
+GEMINI.md
+.gemini/
+.codex/
