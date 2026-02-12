@@ -9,6 +9,7 @@
   },
   "exports": {
     "./container": "./di/container.ts",
+    "./training/*": "./src/contexts/training/*.ts",
     "./shared/*": "./src/shared/*.ts",
     "./utils": "./src/utils.ts"
   },

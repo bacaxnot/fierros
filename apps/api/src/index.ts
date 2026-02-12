@@ -5,6 +5,10 @@ import { Scalar } from "@scalar/hono-api-reference";
 import { Hono } from "hono";
 import { authMiddleware } from "~/middlewares/auth-middleware";
 import { corsMiddleware } from "~/middlewares/cors-middleware";
+import { exerciseMetricsApp } from "~/routes/exercise-metrics";
+import { exercisesApp } from "~/routes/exercises";
+import { routinesApp } from "~/routes/routines";
+import { workoutsApp } from "~/routes/workouts";
 import type { AppVariables } from "~/types/app";
 
 export const app = new Hono<{ Variables: AppVariables }>()
@@ -23,10 +27,12 @@ export const app = new Hono<{ Variables: AppVariables }>()
   })
   .get("/docs", Scalar({ url: "/openapi.json" }))
   // Health check
-  .get("/health", (c) => c.json({ status: "ok" }));
-
-// TODO: Add domain routes here
-// .route("/example", exampleApp);
+  .get("/health", (c) => c.json({ status: "ok" }))
+  // Domain routes
+  .route("/exercises", exercisesApp)
+  .route("/exercise-metrics", exerciseMetricsApp)
+  .route("/routines", routinesApp)
+  .route("/workouts", workoutsApp);
 
 export default {
   port: 8000,
