@@ -1,5 +1,6 @@
 import {
   boolean,
+  jsonb,
   pgTable,
   text,
   timestamp,
@@ -67,4 +68,48 @@ export const authVerification = pgTable("auth_verification", {
 // ============================================
 // DOMAIN TABLES
 // ============================================
-// Add your domain tables here
+
+export const exerciseMetrics = pgTable("exercise_metrics", {
+  id: uuid("id").primaryKey(),
+  name: text("name").notNull(),
+  type: text("type").notNull(),
+  relation: text("relation").notNull(),
+});
+
+export const exercises = pgTable("exercises", {
+  id: uuid("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  userId: uuid("user_id").references(() => authUser.id),
+  targetMuscles: jsonb("target_muscles").notNull().default([]),
+  defaultMetrics: jsonb("default_metrics").notNull().default([]),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).notNull(),
+});
+
+export const routines = pgTable("routines", {
+  id: uuid("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => authUser.id),
+  blocks: jsonb("blocks").notNull().default([]),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).notNull(),
+});
+
+export const workouts = pgTable("workouts", {
+  id: uuid("id").primaryKey(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => authUser.id),
+  routineId: uuid("routine_id").references(() => routines.id),
+  name: text("name").notNull(),
+  startedAt: timestamp("started_at", { withTimezone: true, mode: "string" }).notNull(),
+  finishedAt: timestamp("finished_at", { withTimezone: true, mode: "string" }),
+  notes: text("notes"),
+  blocks: jsonb("blocks").notNull().default([]),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).notNull(),
+});

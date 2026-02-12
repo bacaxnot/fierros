@@ -6,6 +6,8 @@ export class MockRoutineRepository extends RoutineRepository {
   readonly save = mock((_routine: Routine): Promise<void> => Promise.resolve());
   readonly search = mock((): Promise<Routine | null> => Promise.resolve(null));
   readonly searchByUserId = mock((): Promise<Routine[]> => Promise.resolve([]));
+  readonly searchByCriteria = mock((): Promise<Routine[]> => Promise.resolve([]));
+  readonly countByCriteria = mock((): Promise<number> => Promise.resolve(0));
   readonly delete = mock((): Promise<void> => Promise.resolve());
 
   returnOnSearch(routine: Routine | null): void {
