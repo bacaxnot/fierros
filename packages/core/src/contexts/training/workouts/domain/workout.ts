@@ -91,4 +91,17 @@ export class Workout extends AggregateRoot {
       updatedAt: dateToPrimitive(this.updatedAt),
     };
   }
+
+  belongsTo(userId: string): boolean {
+    return this.userId.value === userId;
+  }
+
+  isFinished(): boolean {
+    return this.finishedAt !== null;
+  }
+
+  finish(): void {
+    this.finishedAt = new Date();
+    this.updatedAt = new Date();
+  }
 }

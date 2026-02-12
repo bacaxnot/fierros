@@ -74,4 +74,23 @@ export class Routine extends AggregateRoot {
       updatedAt: dateToPrimitive(this.updatedAt),
     };
   }
+
+  belongsTo(userId: string): boolean {
+    return this.userId.value === userId;
+  }
+
+  updateName(name: string): void {
+    this.name = new RoutineName(name);
+    this.updatedAt = new Date();
+  }
+
+  updateDescription(description: string | null): void {
+    this.description = description ? new RoutineDescription(description) : null;
+    this.updatedAt = new Date();
+  }
+
+  updateBlocks(blocks: RoutineBlockPrimitives[]): void {
+    this.blocks = blocks.map(RoutineBlock.fromPrimitives);
+    this.updatedAt = new Date();
+  }
 }
