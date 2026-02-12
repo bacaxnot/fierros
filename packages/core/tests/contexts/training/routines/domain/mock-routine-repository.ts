@@ -3,10 +3,10 @@ import type { Routine } from "../../../../../src/contexts/training/routines/doma
 import { RoutineRepository } from "../../../../../src/contexts/training/routines/domain/routine-repository";
 
 export class MockRoutineRepository extends RoutineRepository {
-  readonly save = mock(() => {});
-  readonly search = mock(() => {});
-  readonly searchByUserId = mock(() => {});
-  readonly delete = mock(() => {});
+  readonly save = mock((_routine: Routine): Promise<void> => Promise.resolve());
+  readonly search = mock((): Promise<Routine | null> => Promise.resolve(null));
+  readonly searchByUserId = mock((): Promise<Routine[]> => Promise.resolve([]));
+  readonly delete = mock((): Promise<void> => Promise.resolve());
 
   returnOnSearch(routine: Routine | null): void {
     this.search.mockResolvedValue(routine);

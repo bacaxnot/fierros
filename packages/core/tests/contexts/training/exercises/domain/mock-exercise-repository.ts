@@ -3,10 +3,10 @@ import type { Exercise } from "../../../../../src/contexts/training/exercises/do
 import { ExerciseRepository } from "../../../../../src/contexts/training/exercises/domain/exercise-repository";
 
 export class MockExerciseRepository extends ExerciseRepository {
-  readonly save = mock(() => {});
-  readonly search = mock(() => {});
-  readonly searchByUserId = mock(() => {});
-  readonly delete = mock(() => {});
+  readonly save = mock((): Promise<void> => Promise.resolve());
+  readonly search = mock((): Promise<Exercise | null> => Promise.resolve(null));
+  readonly searchByUserId = mock((): Promise<Exercise[]> => Promise.resolve([]));
+  readonly delete = mock((): Promise<void> => Promise.resolve());
 
   returnOnSearchByUserId(exercises: Exercise[]): void {
     this.searchByUserId.mockResolvedValue(exercises);

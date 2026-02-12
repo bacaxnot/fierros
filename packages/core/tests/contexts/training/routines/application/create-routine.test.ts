@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from "bun:test";
 import { CreateRoutine } from "../../../../../src/contexts/training/routines/application/create-routine.usecase";
-import { Routine } from "../../../../../src/contexts/training/routines/domain/routine";
 import { RoutineMother } from "../domain/routine-mother";
 import { RoutineIdMother } from "../domain/routine-id-mother";
 import { MockRoutineRepository } from "../domain/mock-routine-repository";
@@ -30,7 +29,7 @@ describe("CreateRoutine", () => {
     });
 
     expect(repository.save).toHaveBeenCalledTimes(1);
-    const savedRoutine = (repository.save as ReturnType<typeof import("bun:test").mock>).mock.calls[0][0] as Routine;
+    const savedRoutine = repository.save.mock.calls[0][0];
     const primitives = savedRoutine.toPrimitives();
     expect(primitives.id).toBe(id);
     expect(primitives.name).toBe("Push Pull Legs");
@@ -51,7 +50,7 @@ describe("CreateRoutine", () => {
     });
 
     expect(repository.save).toHaveBeenCalledTimes(1);
-    const savedRoutine = (repository.save as ReturnType<typeof import("bun:test").mock>).mock.calls[0][0] as Routine;
+    const savedRoutine = repository.save.mock.calls[0][0];
     const primitives = savedRoutine.toPrimitives();
     expect(primitives.blocks).toEqual([]);
     expect(primitives.description).toBeNull();

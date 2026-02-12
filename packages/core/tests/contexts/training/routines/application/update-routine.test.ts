@@ -32,7 +32,7 @@ describe("UpdateRoutine", () => {
     );
 
     expect(repository.save).toHaveBeenCalledTimes(1);
-    const saved = (repository.save as ReturnType<typeof import("bun:test").mock>).mock.calls[0][0];
+    const saved = repository.save.mock.calls[0][0];
     expect(saved.toPrimitives().name).toBe("New Name");
   });
 
@@ -48,7 +48,7 @@ describe("UpdateRoutine", () => {
     );
 
     expect(repository.save).toHaveBeenCalledTimes(1);
-    const saved = (repository.save as ReturnType<typeof import("bun:test").mock>).mock.calls[0][0];
+    const saved = repository.save.mock.calls[0][0];
     expect(saved.toPrimitives().blocks).toEqual(newBlocks);
   });
 
@@ -64,7 +64,7 @@ describe("UpdateRoutine", () => {
     );
 
     expect(repository.save).toHaveBeenCalledTimes(1);
-    const saved = (repository.save as ReturnType<typeof import("bun:test").mock>).mock.calls[0][0];
+    const saved = repository.save.mock.calls[0][0];
     const primitives = saved.toPrimitives();
     expect(primitives.name).toBe("Updated");
     expect(primitives.description).toBe("New desc");
