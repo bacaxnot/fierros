@@ -113,3 +113,18 @@ export const workouts = pgTable("workouts", {
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).notNull(),
 });
+
+// ============================================
+// AI TABLES
+// ============================================
+
+export const aiSystemPrompts = pgTable("ai_system_prompts", {
+  id: uuid("id").primaryKey(),
+  userId: uuid("user_id")
+    .notNull()
+    .unique()
+    .references(() => authUser.id),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).notNull(),
+});

@@ -9,6 +9,7 @@ import { exerciseMetricsApp } from "~/routes/exercise-metrics";
 import { exercisesApp } from "~/routes/exercises";
 import { routinesApp } from "~/routes/routines";
 import { workoutsApp } from "~/routes/workouts";
+import { aiApp } from "~/routes/ai";
 import type { AppVariables } from "~/types/app";
 
 export const app = new Hono<{ Variables: AppVariables }>()
@@ -32,7 +33,8 @@ export const app = new Hono<{ Variables: AppVariables }>()
   .route("/exercises", exercisesApp)
   .route("/exercise-metrics", exerciseMetricsApp)
   .route("/routines", routinesApp)
-  .route("/workouts", workoutsApp);
+  .route("/workouts", workoutsApp)
+  .route("/ai", aiApp);
 
 export default {
   port: 8000,

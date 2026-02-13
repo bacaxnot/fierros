@@ -17,6 +17,7 @@
     "@hono/zod-validator": "0.7.5",
     "@repo/auth": "workspace:*",
     "@repo/core": "workspace:*",
+    "@repo/db": "workspace:*",
     "@scalar/hono-api-reference": "^0.9.28",
     "hono": "^4.10.8",
     "zod": "4.1.13",
