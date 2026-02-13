@@ -94,6 +94,13 @@
         "typescript": "^5.7.3",
       },
     },
+    "packages/scripts": {
+      "name": "@repo/scripts",
+      "version": "0.1.0",
+      "dependencies": {
+        "@repo/core": "workspace:*",
+      },
+    },
   },
   "packages": {
     "@ai-sdk/gateway": ["@ai-sdk/gateway@3.0.45", "", { "dependencies": { "@ai-sdk/provider": "3.0.8", "@ai-sdk/provider-utils": "4.0.15", "@vercel/oidc": "3.1.0" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-ZB6kHV+D8mLCRnkpWotLCV/rZK4NiODxx4Kv7JdT9QmQknbG/scbE4iyoT4JLFdULA8Y/IVbMvyE0Nwq3Dceqw=="],
@@ -447,6 +454,8 @@
     "@repo/core": ["@repo/core@workspace:packages/core"],
 
     "@repo/db": ["@repo/db@workspace:packages/db"],
+
+    "@repo/scripts": ["@repo/scripts@workspace:packages/scripts"],
 
     "@repo/web": ["@repo/web@workspace:apps/web"],
 

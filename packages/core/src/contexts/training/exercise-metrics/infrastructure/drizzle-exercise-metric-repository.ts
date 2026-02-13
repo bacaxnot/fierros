@@ -5,6 +5,19 @@ import { ExerciseMetric } from "../domain/exercise-metric";
 import type { ExerciseMetricId } from "../domain/exercise-metric-id";
 
 export class DrizzleExerciseMetricRepository {
+  async save(metric: ExerciseMetric): Promise<void> {
+    const p = metric.toPrimitives();
+    await db
+      .insert(exerciseMetrics)
+      .values({
+        id: p.id,
+        name: p.name,
+        type: p.type,
+        relation: p.relation,
+      })
+      .onConflictDoNothing();
+  }
+
   async search(id: ExerciseMetricId): Promise<ExerciseMetric | null> {
     const rows = await db
       .select()

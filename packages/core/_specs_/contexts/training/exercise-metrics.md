@@ -41,6 +41,25 @@ SearchAllExerciseMetrics () -> ExerciseMetricPrimitives[]
       - with multiple metrics in the system
       - with empty metrics list
 
+PopulateExerciseMetrics () -> void
+  [ExerciseMetricRepository]
+
+  Inserts missing seed metrics (matched by name, case-insensitive). Idempotent — skips already existing ones.
+
+  Seed data:
+    - Reps (count, direct)
+    - Weight (weight, direct)
+    - Duration (duration, direct)
+    - Distance (distance, direct)
+    - Rest Time (duration, inverse)
+    - RPE (count, direct)
+
+  happy:
+    base: inserts all 6 metrics when none exist
+    scenarios:
+      - with some metrics already present, only inserts missing ones
+      - with all metrics already present, inserts nothing
+
 ---
 
 ## Design Decisions
