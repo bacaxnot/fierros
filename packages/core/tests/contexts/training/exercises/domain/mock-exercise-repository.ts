@@ -3,7 +3,7 @@ import type { Exercise } from "../../../../../src/contexts/training/exercises/do
 import { ExerciseRepository } from "../../../../../src/contexts/training/exercises/domain/exercise-repository";
 
 export class MockExerciseRepository extends ExerciseRepository {
-  readonly save = mock((): Promise<void> => Promise.resolve());
+  readonly save = mock((_exercise: Exercise): Promise<void> => Promise.resolve());
   readonly search = mock((): Promise<Exercise | null> => Promise.resolve(null));
   readonly searchByCriteria = mock((): Promise<Exercise[]> => Promise.resolve([]));
   readonly countByCriteria = mock((): Promise<number> => Promise.resolve(0));
