@@ -25,6 +25,7 @@ export const getExercisesHandlers = factory.createHandlers(async (c) => {
     if (error instanceof DomainError) {
       return domainError(c, error, 400);
     }
+    console.error("[GET /exercises] Unhandled error:", error);
     return internalServerError(c);
   }
 });

@@ -35,11 +35,23 @@ const routineBlockSchema = z.object({
 });
 
 export function createTrainingTools(cookie: string) {
-  const apiFetch = (path: string, init?: RequestInit) =>
-    api(path, {
+  const apiFetch = async (path: string, init?: RequestInit) => {
+    const method = init?.method ?? "GET";
+    console.log(`[tool] ${method} ${path}`);
+    if (init?.body) console.log(`[tool] body:`, init.body);
+    const res = await api(path, {
       ...init,
       headers: { "Content-Type": "application/json", cookie, ...init?.headers },
     });
+    const text = await res.text();
+    console.log(`[tool] ${method} ${path} -> ${res.status}`, text);
+    return {
+      ok: res.ok,
+      status: res.status,
+      json: () => JSON.parse(text),
+      text: () => text,
+    };
+  };
 
   return {
     searchExercises: tool({
@@ -47,21 +59,13 @@ export function createTrainingTools(cookie: string) {
         "Search for exercises available to the user. Use this to find exercises by name or target muscle before creating routines.",
       inputSchema: z.object({
         name: z.string().optional().describe("Filter exercises by name (partial match)"),
-        targetMuscle: z.string().optional().describe("Filter by target muscle group"),
       }),
-      execute: async ({ name, targetMuscle }) => {
+      execute: async ({ name }) => {
         const params = new URLSearchParams();
-        let filterIndex = 0;
         if (name) {
-          params.set(`filters[${filterIndex}][field]`, "name");
-          params.set(`filters[${filterIndex}][operator]`, "contains");
-          params.set(`filters[${filterIndex}][value]`, name);
-          filterIndex++;
-        }
-        if (targetMuscle) {
-          params.set(`filters[${filterIndex}][field]`, "targetMuscles");
-          params.set(`filters[${filterIndex}][operator]`, "contains");
-          params.set(`filters[${filterIndex}][value]`, targetMuscle);
+          params.set("filters[0][field]", "name");
+          params.set("filters[0][operator]", "contains");
+          params.set("filters[0][value]", name);
         }
         const res = await apiFetch(`/exercises?${params.toString()}`);
         if (!res.ok) return { error: `Failed to search exercises: ${res.status}` };
