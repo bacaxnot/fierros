@@ -11,6 +11,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 export const auth = betterAuth({
   basePath: "/auth",
+  trustedOrigins: [process.env.WEB_URL].filter(Boolean) as string[],
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
