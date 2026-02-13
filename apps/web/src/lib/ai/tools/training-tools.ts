@@ -69,6 +69,36 @@ export function createTrainingTools(cookie: string) {
       },
     }),
 
+    createExercise: tool({
+      description:
+        "Create a new custom exercise for the user. Use listExerciseMetrics first to get valid metric IDs for defaultMetrics.",
+      inputSchema: z.object({
+        name: z.string().describe("Name of the exercise (max 100 chars)"),
+        description: z.string().nullable().describe("Description of the exercise (max 1000 chars)"),
+        targetMuscles: z.array(z.object({
+          muscleGroup: z.enum([
+            "chest", "upper_back", "lats", "shoulders", "biceps", "triceps",
+            "forearms", "core", "quads", "hamstrings", "glutes", "calves",
+            "hip_flexors", "adductors", "abductors",
+          ]).describe("The muscle group"),
+          involvement: z.enum(["primary", "secondary", "stabilizer"]).describe("How involved this muscle is"),
+        })).describe("Target muscles for this exercise"),
+        defaultMetrics: z.array(z.string().uuid()).describe("IDs of exercise metrics to track by default"),
+      }),
+      execute: async ({ name, description, targetMuscles, defaultMetrics }) => {
+        const id = crypto.randomUUID();
+        const res = await apiFetch(`/exercises/${id}`, {
+          method: "PUT",
+          body: JSON.stringify({ name, description, targetMuscles, defaultMetrics }),
+        });
+        if (!res.ok) {
+          const body = await res.json().catch(() => null);
+          return { error: `Failed to create exercise: ${res.status}`, details: body };
+        }
+        return { success: true, id, name };
+      },
+    }),
+
     listExerciseMetrics: tool({
       description:
         "List all available exercise metrics (e.g., weight, reps, duration). Use this to understand what metrics can be tracked for exercises when creating routines.",

@@ -49,6 +49,12 @@ ExerciseRepository repository
 
 ## Use Cases
 
+CreateExercise ({ id, userId, name, description, targetMuscles, defaultMetrics }) -> void
+  [ExerciseRepository]
+
+  happy:
+    base: creates and persists a new exercise
+
 SearchExercisesByCriteria ({ criteria: CriteriaPrimitives }) -> ExercisePrimitives[]
   [ExerciseRepository]
 
