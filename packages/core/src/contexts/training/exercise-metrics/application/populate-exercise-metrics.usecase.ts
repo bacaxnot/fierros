@@ -2,7 +2,7 @@ import { InferDependencies } from "../../../../../di/autoregister";
 import { ExerciseMetric } from "../domain/exercise-metric";
 import { ExerciseMetricId } from "../domain/exercise-metric-id";
 import { ExerciseMetricName } from "../domain/exercise-metric-name";
-import type { ExerciseMetricRepository } from "../domain/exercise-metric-repository";
+import { ExerciseMetricRepository } from "../domain/exercise-metric-repository";
 
 const SEED_METRICS = [
   { name: "Reps", type: "count", relation: "direct" },
