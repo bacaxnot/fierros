@@ -1,6 +1,6 @@
 import { InferDependencies } from "../../../../../di/autoregister";
 import { Exercise } from "../domain/exercise";
-import type { ExerciseRepository } from "../domain/exercise-repository";
+import { ExerciseRepository } from "../domain/exercise-repository";
 import type { ExerciseTargetMusclePrimitives } from "../domain/exercise-target-muscle";
 
 @InferDependencies()
