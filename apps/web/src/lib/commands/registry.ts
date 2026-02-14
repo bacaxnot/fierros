@@ -3,12 +3,7 @@ import { WorkoutsResult } from "~/components/chat/command-results/workouts-resul
 import { RoutinesResult } from "~/components/chat/command-results/routines-result";
 import { ExercisesResult } from "~/components/chat/command-results/exercises-result";
 import { HelpResult } from "~/components/chat/command-results/help-result";
-
-async function fetchBackend(path: string): Promise<unknown> {
-  const res = await fetch(`/api/backend${path}`, { credentials: "include" });
-  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-  return res.json();
-}
+import { apiGet } from "~/lib/api-client";
 
 function buildFilterParams(field: string, operator: string, value: string): string {
   return new URLSearchParams({
@@ -24,7 +19,7 @@ export const commands: CommandDefinition[] = [
     aliases: ["/w"],
     description: "List your workouts",
     execute: async () => {
-      return fetchBackend("/workouts?orderBy=startedAt&orderType=DESC&pageSize=20");
+      return apiGet("/workouts?orderBy=startedAt&orderType=DESC&pageSize=20");
     },
     serialize: (data) => {
       const items = (data as { data: { name: string }[] }).data;
@@ -42,7 +37,7 @@ export const commands: CommandDefinition[] = [
       const query = args
         ? `?${buildFilterParams("name", "contains", args)}`
         : "";
-      return fetchBackend(`/routines${query}`);
+      return apiGet(`/routines${query}`);
     },
     serialize: (data) => {
       const items = (data as { data: { name: string }[] }).data;
@@ -60,7 +55,7 @@ export const commands: CommandDefinition[] = [
       const query = args
         ? `?${buildFilterParams("name", "contains", args)}`
         : "?pageSize=20";
-      return fetchBackend(`/exercises${query}`);
+      return apiGet(`/exercises${query}`);
     },
     serialize: (data) => {
       const items = (data as { data: { name: string }[] }).data;
