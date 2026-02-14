@@ -18,7 +18,7 @@ export const app = new Hono<{ Variables: AppVariables }>()
   // Auth middleware - adds user/session to context and enforces authentication
   .use("*", authMiddleware)
   // Better Auth routes (handles /auth/* including sign-up, sign-in, etc)
-  .on(["POST", "GET"], "/auth/*", (c) => {
+  .on(["POST", "GET", "OPTIONS"], "/auth/*", (c) => {
     return auth.handler(c.req.raw);
   })
   // API Documentation

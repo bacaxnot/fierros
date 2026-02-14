@@ -61,8 +61,8 @@ function ListResult({ toolName, items }: { toolName: string; items: Record<strin
                 <span className="text-sm font-medium">{String(ex.name)}</span>
                 <div className="flex gap-1">
                   {Array.isArray(ex.targetMuscles) &&
-                    ex.targetMuscles.map((m: Record<string, string>) => (
-                      <Badge key={m.name} variant="secondary" className="text-xs">
+                    ex.targetMuscles.map((m: Record<string, string>, i: number) => (
+                      <Badge key={`${m.name}-${i}`} variant="secondary" className="text-xs">
                         {m.name}
                       </Badge>
                     ))}

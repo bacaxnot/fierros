@@ -2,7 +2,7 @@
   "name": "@repo/api",
   "type": "module",
   "scripts": {
-    "dev": "bun run --hot src/index.ts & bun run build:rpc:watch",
+    "dev": "bun run --env-file ../../.env --hot src/index.ts & bun run build:rpc:watch",
     "build:rpc": "tsdown",
     "build:rpc:watch": "tsdown --watch",
     "docs": "hono-auto-docs generate --config ./hono-docs.ts"

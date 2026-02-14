@@ -4,7 +4,7 @@ import { api } from "~/lib/api";
 
 const metricValueSchema = z.object({
   value: z.number().describe("The numeric value"),
-  unit: z.string().describe("The unit of measurement (e.g., 'kg', 'reps', 'seconds')"),
+  unit: z.enum(["quantity", "seconds", "milliseconds", "kilograms", "pounds", "meters", "kilometers", "miles"]).describe("The unit of measurement. Use 'quantity' for reps/counts, 'kilograms' or 'pounds' for weight, 'seconds' for duration."),
 });
 
 const metricValueRangeSchema = z.object({
@@ -48,7 +48,7 @@ export function createTrainingTools(cookie: string) {
     return {
       ok: res.ok,
       status: res.status,
-      json: () => JSON.parse(text),
+      json: async () => JSON.parse(text),
       text: () => text,
     };
   };
@@ -68,8 +68,11 @@ export function createTrainingTools(cookie: string) {
           params.set("filters[0][value]", name);
         }
         const res = await apiFetch(`/exercises?${params.toString()}`);
-        if (!res.ok) return { error: `Failed to search exercises: ${res.status}` };
-        return res.json();
+        if (!res.ok) {
+          const body = await res.json().catch(() => null);
+          return { error: `Failed to search exercises: ${res.status}`, details: body };
+        }
+        return await res.json();
       },
     }),
 
@@ -109,8 +112,11 @@ export function createTrainingTools(cookie: string) {
       inputSchema: z.object({}),
       execute: async () => {
         const res = await apiFetch("/exercise-metrics");
-        if (!res.ok) return { error: `Failed to list metrics: ${res.status}` };
-        return res.json();
+        if (!res.ok) {
+          const body = await res.json().catch(() => null);
+          return { error: `Failed to list metrics: ${res.status}`, details: body };
+        }
+        return await res.json();
       },
     }),
 
@@ -127,8 +133,11 @@ export function createTrainingTools(cookie: string) {
           params.set("filters[0][value]", name);
         }
         const res = await apiFetch(`/routines?${params.toString()}`);
-        if (!res.ok) return { error: `Failed to search routines: ${res.status}` };
-        return res.json();
+        if (!res.ok) {
+          const body = await res.json().catch(() => null);
+          return { error: `Failed to search routines: ${res.status}`, details: body };
+        }
+        return await res.json();
       },
     }),
 
@@ -205,8 +214,11 @@ export function createTrainingTools(cookie: string) {
           params.set("filters[0][value]", routineId);
         }
         const res = await apiFetch(`/workouts?${params.toString()}`);
-        if (!res.ok) return { error: `Failed to search workouts: ${res.status}` };
-        return res.json();
+        if (!res.ok) {
+          const body = await res.json().catch(() => null);
+          return { error: `Failed to search workouts: ${res.status}`, details: body };
+        }
+        return await res.json();
       },
     }),
 
