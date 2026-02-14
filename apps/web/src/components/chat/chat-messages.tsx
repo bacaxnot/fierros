@@ -19,8 +19,8 @@ export function ChatMessages({ messages, commandDataRef }: ChatMessagesProps) {
   }, [messages]);
 
   return (
-    <ScrollArea className="flex-1 px-4">
-      <div className="mx-auto max-w-2xl space-y-4 py-4">
+    <ScrollArea className="flex-1">
+      <div className="mx-auto max-w-3xl space-y-4 pt-16 pb-4">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center pt-20 text-center">
             <h2 className="text-lg font-semibold">Welcome to Fierros</h2>

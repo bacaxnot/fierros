@@ -1,9 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Button } from "~/components/ui/button";
-import { Textarea } from "~/components/ui/textarea";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Loader2 } from "lucide-react";
 import {
   CommandAutocomplete,
   getFilteredCommands,
@@ -18,6 +16,7 @@ type ChatInputProps = {
 
 export function ChatInput({ input, isLoading, onInputChange, onSubmit }: ChatInputProps) {
   const formRef = useRef<HTMLFormElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const showAutocomplete = input.trim().startsWith("/") && !input.includes(" ");
@@ -70,11 +69,11 @@ export function ChatInput({ input, isLoading, onInputChange, onSubmit }: ChatInp
   }
 
   return (
-    <div className="border-t bg-background px-4 py-3">
+    <div className="pb-4 pt-2">
       <form
         ref={formRef}
         onSubmit={onSubmit}
-        className="relative mx-auto flex max-w-2xl items-end gap-2"
+        className="relative mx-auto max-w-3xl"
       >
         {showAutocomplete && (
           <CommandAutocomplete
@@ -83,18 +82,30 @@ export function ChatInput({ input, isLoading, onInputChange, onSubmit }: ChatInp
             onSelect={selectCommand}
           />
         )}
-        <Textarea
-          value={input}
-          onChange={(e) => handleChange(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Ask about exercises, routines, or workouts..."
-          rows={1}
-          className="min-h-[40px] max-h-[120px] resize-none"
-          disabled={isLoading}
-        />
-        <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
-          <ArrowUp className="h-4 w-4" />
-        </Button>
+        <div
+          className="rounded-2xl border bg-muted/50 focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px] transition-[color,box-shadow]"
+          onClick={() => textareaRef.current?.focus()}
+        >
+          <textarea
+            ref={textareaRef}
+            value={input}
+            onChange={(e) => handleChange(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Send a message..."
+            rows={1}
+            disabled={isLoading}
+            className="block w-full resize-none bg-transparent px-4 pt-4 pb-2 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 field-sizing-content min-h-[2.5rem] max-h-[10rem]"
+          />
+          <div className="flex items-center justify-end px-3 pb-3">
+            <button
+              type="submit"
+              disabled={isLoading || !input.trim()}
+              className="flex size-8 items-center justify-center rounded-full bg-foreground text-background transition-opacity disabled:opacity-30"
+            >
+              {isLoading ? <Loader2 className="size-4 animate-spin" /> : <ArrowUp className="size-4" />}
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   );
